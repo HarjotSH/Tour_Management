@@ -63,5 +63,3 @@ We plan to add new features and enhancements to the platform based on user feedb
 
 Tour Management is a comprehensive travel and tour platform designed to make travel planning easy and enjoyable. We invite your questions and feedback to help us improve and grow.
 
----
-
