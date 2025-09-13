@@ -18,7 +18,8 @@ const port = process.env.PORT || 8000;
 // ✅ Define allowed origins
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://coderunner07.netlify.app", // your deployed frontend
+  "https://coderunner07.netlify.app",
+  "https://yourtouray.netlify.app"
 ];
 
 // ✅ Middleware to allow credentials + dynamic origin
