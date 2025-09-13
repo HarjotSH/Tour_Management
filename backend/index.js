@@ -8,7 +8,7 @@ import tourRoute from "./routes/tours.js";
 import userRoute from "./routes/users.js";
 import authRoute from "./routes/auth.js";
 import reviewRoute from "./routes/review.js";
-import bookingRoute from "./routes/booking.js";   
+import bookingRoute from "./routes/booking.js";
 
 dotenv.config();
 
