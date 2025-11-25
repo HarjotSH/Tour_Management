@@ -1,11 +1,9 @@
 import { createContext, useEffect, useReducer } from "react";
+import { BASE_URL } from "../utils/config";
 
 const initial_state = {
-  user:
-    localStorage.getItem("user") === undefined
-      ? JSON.parse(localStorage.getItem("user"))
-      : null,
-  loading: false,
+  user: null,
+  loading: true,
   error: null,
 };
 
@@ -14,35 +12,19 @@ export const AuthContext = createContext(initial_state);
 const AuthReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN_START":
-      return {
-        user: null,
-        loading: false,
-        error: null,
-      };
+      return { user: null, loading: true, error: null };
+
     case "LOGIN_SUCCESS":
-      return {
-        user: action.payload,
-        loading: false,
-        error: null,
-      };
+      return { user: action.payload, loading: false, error: null };
+
     case "LOGIN_FAILURE":
-      return {
-        user: null,
-        loading: false,
-        error: action.payload,
-      };
-    case "REGISTER_SUCCESS":
-      return {
-        user: null,
-        loading: false,
-        error: null,
-      };
+      return { user: null, loading: false, error: action.payload };
+
+    case "SET_USER":
+      return { user: action.payload, loading: false, error: null };
+
     case "LOGOUT":
-      return {
-        user: null,
-        loading: false,
-        error: null,
-      };
+      return { user: null, loading: false, error: null };
 
     default:
       return state;
@@ -52,19 +34,36 @@ const AuthReducer = (state, action) => {
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, initial_state);
 
+  // 🔥 Auto-login on refresh
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(state.user));
-  }, [state.user]);
+    const restoreUser = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/auth/check-auth`, {
+          credentials: "include",
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          dispatch({ type: "SET_USER", payload: data.user });
+        } else {
+          dispatch({ type: "SET_USER", payload: null });
+        }
+
+      } catch {
+        dispatch({ type: "SET_USER", payload: null });
+      }
+    };
+
+    restoreUser();
+  }, []);
 
   return (
-    <AuthContext.Provider
-      value={{
-        user: state.user,
-        loading: state.loading,
-        error: state.error,
-        dispatch,
-      }}
-    >
+    <AuthContext.Provider value={{
+      user: state.user,
+      loading: state.loading,
+      error: state.error,
+      dispatch
+    }}>
       {children}
     </AuthContext.Provider>
   );

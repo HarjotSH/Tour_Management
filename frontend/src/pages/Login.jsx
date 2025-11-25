@@ -11,7 +11,7 @@ import { BASE_URL } from "./../utils/config";
 const Login = () => {
   const [credentials, setcredentials] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const { dispatch } = useContext(AuthContext);
