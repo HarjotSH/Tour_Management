@@ -9,23 +9,20 @@ import customizationImg from '../assets/images/customization.png'
 const servicesData = [
   {
     imgUrl: weatherImg,
-    title: 'Calculate weather',
-    desc: " Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
+    title: 'Weather Forecasting',
+    desc: "Get accurate weather updates for every destination so you can plan your trip with confidence.",
   },
   {
     imgUrl: guideImg,
-    title: 'Best Tour Guide',
-    desc: " Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
+    title: 'Expert Tour Guides',
+    desc: "Travel with certified and experienced guides who ensure a safe, exciting, and informative journey.",
   },
   {
     imgUrl: customizationImg,
-    title: 'Customization',
-    desc: " Lorem, ipsum dolor sit amet consectetur adipisicing elit.",
+    title: 'Customizable Tours',
+    desc: "Personalize your travel itinerary—choose destinations, activities, and schedules that suit you best.",
   },
-
 ]
-
-
 
 const ServiceList = () => {
   return (
@@ -40,3 +37,4 @@ const ServiceList = () => {
 }
 
 export default ServiceList
+  
