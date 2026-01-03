@@ -35,13 +35,13 @@ app.use(
   })
 );
 
-// ✅ Preflight OPTIONS fix for Render
+//  Preflight OPTIONS fix for Render
 app.options("*", cors({
   origin: true,
   credentials: true,
 }));
 
-// ✅ Additional headers for Render
+//  Additional headers for Render
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
@@ -53,18 +53,18 @@ app.use((req, res, next) => {
   next();
 });
 
-// ✅ Basic Middleware
+//  Basic Middleware
 app.use(express.json());
 app.use(cookieParser());
 
-// ✅ API Routes
+//  API Routes
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/tours", tourRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/review", reviewRoute);
 app.use("/api/v1/booking", bookingRoute);
 
-// ✅ MongoDB connection
+//  MongoDB connection
 mongoose.set("strictQuery", false);
 const connect = async () => {
   try {
@@ -75,7 +75,7 @@ const connect = async () => {
   }
 };
 
-// ✅ Start server
+//  Start server
 app.listen(port, () => {
   connect();
   console.log("Server is running on port", port);
