@@ -3,18 +3,33 @@ import Review from "../models/Review.js";
 
 export const createReview = async (req, res) => {
   const tourId = req.params.tourId;
-  const newReview = new Review({ ...req.body });
+
   try {
+    const newReview = new Review({
+      ...req.body,
+      tourId,
+      userId: req.userId, // 🔥 comes from token
+    });
+
     const savedReview = await newReview.save();
 
-    //after creating a new review now update the reviews array of the tour
-    await Tour.findByIdAndUpdate(tourId, {
-      $push: { reviews: savedReview._id },
+    // Attach review to tour
+    await Tour.findByIdAndUpdate(
+      tourId,
+      { $push: { reviews: savedReview._id } },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Review submitted successfully",
+      data: savedReview,
     });
-    res
-      .status(200)
-      .json({ sucess: true, message: "Review submitted", data: savedReview });
   } catch (err) {
-    res.status(500).json({ sucess: false, message: "failed to submit" });
+    console.error("Review error:", err);
+    res.status(500).json({
+      success: false,
+      message: "Failed to submit review",
+    });
   }
 };
