@@ -9,6 +9,7 @@ import userRoute from "./routes/users.js";
 import authRoute from "./routes/auth.js";
 import reviewRoute from "./routes/review.js";
 import bookingRoute from "./routes/booking.js";
+import newsletterRoute from "./routes/newsletter.js";
 
 dotenv.config();
 
@@ -62,6 +63,7 @@ app.use("/api/v1/tours", tourRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/review", reviewRoute);
 app.use("/api/v1/booking", bookingRoute);
+app.use("/api/v1/newsletter", newsletterRoute);
 
 //  MongoDB connection
 mongoose.set("strictQuery", false);
