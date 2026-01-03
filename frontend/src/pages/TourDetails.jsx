@@ -31,40 +31,57 @@ const TourDetails = () => {
     const options = { day: "numeric", month: "long", year: "numeric" };
 
     //submit request to the server
-    const submitHandler = async e => {
-        e.preventDefault()
-        const reviewText = reviewMsgRef.current.value;
+    const submitHandler = async (e) => {
+    e.preventDefault();
 
-        try {
-            if (!user || user === undefined || user == null) {
-                alert('Please sign in')
-            }
-            const reviewObj = {
-                username: user?.username, reviewText,
-                rating: tourRating
-            }
-            const res = await fetch(`${BASE_URL}/review/${id}`, {
-                method: 'post',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                credentials: 'include',
-                body: JSON.stringify(reviewObj)
-            });
+    // 🔒 Stop if user not logged in
+    if (!user) {
+        alert("Please sign in");
+        return;
+    }
 
-            const result = await res.json();
-            if (!res.ok) {
-                return alert(result.message);
-            }
-            alert(result.message);
-        } catch (err) {
-            alert(err.message);
+    // ⭐ Stop if rating not selected
+    if (!tourRating) {
+        alert("Please select a rating");
+        return;
+    }
+
+    const reviewText = reviewMsgRef.current.value;
+
+    const reviewObj = {
+        username: user.username,
+        reviewText,
+        rating: tourRating,
+    };
+
+    try {
+        const res = await fetch(`${BASE_URL}/review/${id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(reviewObj),
+        });
+
+        const result = await res.json();
+
+        if (!res.ok) {
+            return alert(result.message || "Failed to submit review");
         }
 
-        // alert(`${reviewText},${tourRating}`);
+        alert("Review submitted successfully");
 
-        //later will call our api
+        // reset form
+        reviewMsgRef.current.value = "";
+        setTourRating(null);
+
+    } catch (err) {
+        console.error(err);
+        alert("Something went wrong");
     }
+};
+
 
     useEffect(() => {
         window.scrollTo(0, 0)
