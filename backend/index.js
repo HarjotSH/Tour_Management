@@ -17,8 +17,6 @@ const port = process.env.PORT || 8000;
 
 // ✅ Define allowed origins
 const allowedOrigins = [
-  "http://localhost:3000",
-  "https://coderunner07.netlify.app",
   "https://yourtouray.netlify.app",
   "https://yourtoure.netlify.app/"
 ];
