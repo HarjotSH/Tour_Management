@@ -24,16 +24,15 @@ const allowedOrigins = [
 // ✅ Middleware to allow credentials + dynamic origin
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
+    origin: [
+      "https://yourtoure.netlify.app",
+      "https://yourtouray.netlify.app",
+      "http://localhost:3000",
+    ],
+    credentials: true, // 🔥 REQUIRED
   })
 );
+
 
 //  Preflight OPTIONS fix for Render
 app.options("*", cors({

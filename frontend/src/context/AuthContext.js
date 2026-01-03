@@ -36,26 +36,27 @@ export const AuthContextProvider = ({ children }) => {
 
   // 🔥 Auto-login on refresh
   useEffect(() => {
-    const restoreUser = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/auth/check-auth`, {
-          credentials: "include",
-        });
+  const restoreUser = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/auth/check-auth`, {
+        credentials: "include",
+      });
 
-        const data = await res.json();
-        if (data.success) {
-          dispatch({ type: "SET_USER", payload: data.user });
-        } else {
-          dispatch({ type: "SET_USER", payload: null });
-        }
+      const data = await res.json();
 
-      } catch {
+      if (data.success) {
+        dispatch({ type: "SET_USER", payload: data.user });
+      } else {
         dispatch({ type: "SET_USER", payload: null });
       }
-    };
+    } catch {
+      dispatch({ type: "SET_USER", payload: null });
+    }
+  };
 
-    restoreUser();
-  }, []);
+  restoreUser();
+}, []);
+
 
   return (
     <AuthContext.Provider value={{
